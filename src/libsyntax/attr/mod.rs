@@ -185,6 +185,10 @@ impl Attribute {
         name_from_path(&self.path)
     }
 
+    pub fn value_lit(&self) -> Option<ast::Lit> {
+        self.meta().and_then(|meta| meta.value_lit().cloned())
+    }
+
     pub fn value_str(&self) -> Option<Symbol> {
         self.meta().and_then(|meta| meta.value_str())
     }
@@ -219,16 +223,18 @@ impl MetaItem {
         name_from_path(&self.ident)
     }
 
-    pub fn value_str(&self) -> Option<Symbol> {
+    pub fn value_lit(&self) -> Option<&ast::Lit> {
         match self.node {
-            MetaItemKind::NameValue(ref v) => {
-                match v.node {
-                    LitKind::Str(ref s, _) => Some(*s),
-                    _ => None,
-                }
-            },
+            MetaItemKind::NameValue(ref v) => Some(v),
             _ => None
         }
+    }
+
+    pub fn value_str(&self) -> Option<Symbol> {
+        self.value_lit().and_then(|v| match v.node {
+            LitKind::Str(ref s, _) => Some(*s),
+            _ => None,
+        })
     }
 
     pub fn meta_item_list(&self) -> Option<&[NestedMetaItem]> {
