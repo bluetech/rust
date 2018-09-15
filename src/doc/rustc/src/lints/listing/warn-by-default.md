@@ -157,17 +157,17 @@ This lint detects types, variants, traits and type parameters that don't have
 camel case names. Some example code that triggers this lint:
 
 ```rust
-struct s;
+struct snake_case;
 ```
 
 This will produce:
 
 ```text
-warning: type `s` should have a camel case name such as `S`
+warning: type `snake_case` should have a camel case name such as `SnakeCase`
  --> src/main.rs:1:1
   |
-1 | struct s;
-  | ^^^^^^^^^
+1 | struct snake_case;
+  |        ^^^^^^^^^^
   |
 ```
 
@@ -224,17 +224,17 @@ modules that don't have snake case names. Some example code that triggers
 this lint:
 
 ```rust
-let X = 5;
+let CamelCase = 5;
 ```
 
 This will produce:
 
 ```text
-warning: variable `X` should have a snake case name such as `x`
+warning: variable `CamelCase` should have a snake case name such as `camel_case`
  --> src/main.rs:2:9
   |
-2 |     let X = 5;
-  |         ^
+2 |     let CamelCase = 5;
+  |         ^^^^^^^^^
   |
 ```
 
